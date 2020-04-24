@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activitys.AuditDetailActivity">
+    <include layout="@layout/title"/>
+    <ScrollView
+        android:id="@+id/sl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/audit_detail_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:textSize="20sp"
+                android:textColor="@color/liji_material_red_500"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tag_image"
+                android:background="@color/gray"
+                android:layout_margin="10dp"
+                />
+            <com.goyourfly.multi_picture.MultiPictureView
+                android:id="@+id/multi_image_view_detail"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:editable="false"
+                app:max="9"
+                app:space="6dp"
+                app:span="3"/>
+
+            <TextView
+                android:textSize="20sp"
+                android:textColor="@color/liji_material_red_500"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray"
+                android:text="@string/tag_is_agree"
+                android:layout_margin="10dp"
+                />
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+                >
+                <RadioButton
+                    android:id="@+id/radioButton_is"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:checked="true"
+                    android:text="通过" />
+                <RadioButton
+                    android:id="@+id/radioButton_not"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:checked="false"
+                    android:text="未通过" />
+            </RadioGroup>
+            <TextView
+                android:textSize="20sp"
+                android:textColor="@color/liji_material_red_500"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tag_input"
+                android:background="@color/gray"
+                android:layout_margin="10dp"
+                />
+            <EditText
+                android:id="@+id/et_audit"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/edit_background"
+                android:hint="@string/tag_hini"
+                android:textColorHint="#888888"
+                android:gravity="top"
+                android:padding="5dp"
+                android:layout_margin="10dp"
+                />
+
+            <Button
+                android:background="@drawable/btn_bg_mr"
+
+                android:id="@+id/audit_add"
+
+                android:layout_width="match_parent"
+                android:layout_margin="15dp"
+
+                android:layout_height="wrap_content"
+                android:text="@string/add"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/photoview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>
+
