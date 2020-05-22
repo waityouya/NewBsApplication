@@ -69,10 +69,12 @@ public class AuditDetailActivity extends AppCompatActivity implements GlobalHand
     private EditText editTextAudit;
     private Button buttonAudit;
     private RadioGroup radioGroup ;
+    private ImageView back;
     RadioButton radioButton ;
     String token;
     String userId;
     private PhotoView photoView;
+    private Case case1;
     private AuxiliryCase auxiliryCase;
     private View parent;
     private int auxiliaryId = 0;
@@ -92,6 +94,7 @@ public class AuditDetailActivity extends AppCompatActivity implements GlobalHand
     }
 
     private void init(){
+        back = findViewById(R.id.iv_title);
         recyclerView = findViewById(R.id.audit_detail_recyclerView);
         multiPictureView = findViewById(R.id.multi_image_view_detail);
         radioGroup = findViewById(R.id.radioGroup);
@@ -126,6 +129,12 @@ public class AuditDetailActivity extends AppCompatActivity implements GlobalHand
     }
 
     private void setmLinster(){
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         buttonAudit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,7 +308,7 @@ public class AuditDetailActivity extends AppCompatActivity implements GlobalHand
                                             break;
 
                                         case 11:
-                                            AuxiliryCaseDetail caseDetail10 = new AuxiliryCaseDetail(R.drawable.jingyuan, "处罚人:", String.valueOf(auxiliryCase.getPunishmentId()));
+                                            AuxiliryCaseDetail caseDetail10 = new AuxiliryCaseDetail(R.drawable.jingyuan, "处罚人:", String.valueOf(auxiliryCase.getPunishmentName()));
                                             mCases.add(caseDetail10);
                                             break;
 
@@ -377,6 +386,9 @@ public class AuditDetailActivity extends AppCompatActivity implements GlobalHand
             @Override
             public void onBtnClick() {
                 dialog.dismiss();
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean("isTokenValid",false);
+                editor.apply();
                 Intent intent = new Intent(AuditDetailActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -386,23 +398,50 @@ public class AuditDetailActivity extends AppCompatActivity implements GlobalHand
     }
 
     private void ok(){
-        final NormalDialog dialog = new NormalDialog(AuditDetailActivity.this);
-        dialog.content("审核成功")
-                .btnNum(1)
-                .btnText("确定")
-                .showAnim(new BounceTopEnter())
-                .dismissAnim(new SlideBottomExit())
+        BounceTopEnter mBasIn = new BounceTopEnter();
+        // 退出动画
+        SlideBottomExit mBasOut = new SlideBottomExit();
+        final NormalDialog dialog = new NormalDialog(this);
+        dialog.content("审核成功，是否打印罚单?") // （
+                .showAnim(mBasIn) //
+                .dismissAnim(mBasOut)//
                 .show();
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setOnBtnClickL(new OnBtnClickL() {
-            @Override
-            public void onBtnClick() {
-                dialog.dismiss();
 
-                finish();
-            }
-        });
+        dialog.setOnBtnClickL(
+                new OnBtnClickL() {
+                    //取消
+                    @Override
+                    public void onBtnClick() {
+                        finish();
+                        dialog.dismiss();
+                    }
+                },
+                new OnBtnClickL() {
+                    //确定
+                    @Override
+                    public void onBtnClick() {
+
+                        dialog.dismiss();
+                        Intent intent = new Intent(AuditDetailActivity.this,PrinterSettingActivity.class);
+                        case1 = new Case();
+                        case1.setOffMoney(auxiliryCase.getOffMoney());
+                        case1.setOffPunishmentType(auxiliryCase.getOffPunishmentType());
+                        case1.setOffName(auxiliryCase.getOffName());
+                        case1.setOffPlateNumber(auxiliryCase.getOffPlateNumber());
+                        case1.setOffCertificateNumber(auxiliryCase.getOffCertificateNumber());
+                        case1.setOffTime(auxiliryCase.getOffTime());
+                        case1.setOffPlace(auxiliryCase.getOffPlace());
+                        case1.setOffType(auxiliryCase.getOffType());
+                        case1.setPunishmentName(auxiliryCase.getPunishmentName());
+                        intent.putExtra("caseInfo",case1);
+
+
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
+
 
     }
 }

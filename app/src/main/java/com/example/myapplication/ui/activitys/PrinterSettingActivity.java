@@ -136,7 +136,7 @@ public class PrinterSettingActivity extends BasePrintActivity  implements View.O
                 }
                 PrintUtil.printTest(socket, mCase.getOffName(),mCase.getOffCertificateNumber(),mCase.getOffTime(),
                         mCase.getOffPlateNumber(),mCase.getOffPlace(),mCase.getOffType(),"《道路交通安全法实施条例》","根据《道路交通安全法》第89条",puniment
-                ,String.valueOf(mCase.getPunishmentId()));
+                ,String.valueOf(mCase.getPunishmentName()));
                 break;
         }
     }

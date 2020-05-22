@@ -40,10 +40,12 @@ public class MainActivity extends AppCompatActivity implements GlobalHandler.Han
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //判断token是否存在
+        LogUtil.d("main");
         SharedPreferences sp = getSharedPreferences("login", 0);
         if(sp.getString("token",null) != null && sp.getBoolean("isTokenValid",false)){
             Intent intent=new Intent(MainActivity.this,UserActivity.class);
             startActivity(intent);
+            LogUtil.d("user start");
             MainActivity.this.finish();
         }
         setContentView(R.layout.activity_main);

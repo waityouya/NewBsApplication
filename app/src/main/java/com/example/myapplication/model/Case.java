@@ -22,6 +22,7 @@ public class Case extends JsonRootBean implements Serializable  {
         int auditorId;
         //token
         String appToken;
+        String punishmentName;
 
         public Case(String offPlateNumber,String offName,int offSex,String offBirthPlace,
         String offCertificateType,String offCertificateNumber,String offCertificateValid,String offTime,
@@ -199,4 +200,11 @@ public class Case extends JsonRootBean implements Serializable  {
             this.punishmentId = punishmentId;
         }
 
+    public String getPunishmentName() {
+        return punishmentName;
+    }
+
+    public void setPunishmentName(String punishmentName) {
+        this.punishmentName = punishmentName;
+    }
 }

@@ -4,6 +4,7 @@ public class LoginReturnData {
     private String userId;
     private String appToken;
 
+
     public String getUserId() {
         return userId;
     }
@@ -19,4 +20,6 @@ public class LoginReturnData {
     public void setAppToken(String token) {
         this.appToken = token;
     }
+
+
 }

@@ -14,6 +14,7 @@ import android.os.Message;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -60,6 +61,7 @@ public class FindActivity extends AppCompatActivity implements GlobalHandler.Han
     private boolean isSearch = false;
     private boolean isCount = false;
 
+    private ImageView back;
     String token;
     String userId;
     int page = 0;
@@ -76,6 +78,7 @@ public class FindActivity extends AppCompatActivity implements GlobalHandler.Han
     }
 
     private void initView(){
+        back = findViewById(R.id.iv_title);
         searchView = findViewById(R.id.searchView);
         textViewTitle = findViewById(R.id.tv_title);
         textViewTitle.setText("查找");
@@ -106,6 +109,12 @@ public class FindActivity extends AppCompatActivity implements GlobalHandler.Han
     }
 
     private void  setLister(){
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
            @Override
            public void onRefresh() {
@@ -181,8 +190,9 @@ public class FindActivity extends AppCompatActivity implements GlobalHandler.Han
 
             final String nameText = model.getOffName();
             final String idText = model.getOffCertificateNumber();
+            final String carNumbertext = model.getOffPlateNumber();
 
-            if (nameText.contains(query) || idText.contains(query)) {
+            if (nameText.contains(query) || idText.contains(query) || carNumbertext.contains(query) ) {
 
                 filteredModelList.add(model);
 
@@ -267,6 +277,13 @@ public class FindActivity extends AppCompatActivity implements GlobalHandler.Han
                                     case1.setCaseId(object.getInt("caseId"));
                                     case1.setOffType(object.getString("offType"));
                                     case1.setOffTime(object.getString("offTime"));
+                                    case1.setOffBirthPlace(object.getString("offBirthPlace"));
+                                    case1.setOffPlace(object.getString("offPlace"));
+                                    case1.setOffCertificateType(object.getString("offCertificateType"));
+                                    case1.setOffPlateNumber(object.getString("offPlateNumber"));
+                                    case1.setOffPunishmentType(object.getString("offPunishmentType"));
+                                    case1.setPunishmentName(object.getString("punishmentName"));
+                                    case1.setOffMoney(object.getInt("offMoney"));
                                     mCases.add(case1);
 
                                 }
@@ -291,6 +308,13 @@ public class FindActivity extends AppCompatActivity implements GlobalHandler.Han
                                     case1.setCaseId(object.getInt("caseId"));
                                     case1.setOffType(object.getString("offType"));
                                     case1.setOffTime(object.getString("offTime"));
+                                    case1.setOffBirthPlace(object.getString("offBirthPlace"));
+                                    case1.setOffPlace(object.getString("offPlace"));
+                                    case1.setOffCertificateType(object.getString("offCertificateType"));
+                                    case1.setOffPlateNumber(object.getString("offPlateNumber"));
+                                    case1.setOffPunishmentType(object.getString("offPunishmentType"));
+                                    case1.setPunishmentName(object.getString("punishmentName"));
+                                    case1.setOffMoney(object.getInt("offMoney"));
                                     serachCases.add(case1);
 
                                 }
@@ -353,6 +377,9 @@ public class FindActivity extends AppCompatActivity implements GlobalHandler.Han
             @Override
             public void onBtnClick() {
                 dialog.dismiss();
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean("isTokenValid",false);
+                editor.apply();
                 Intent intent = new Intent(FindActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();

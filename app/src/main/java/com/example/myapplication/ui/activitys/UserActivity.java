@@ -3,6 +3,7 @@ package com.example.myapplication.ui.activitys;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -29,6 +30,7 @@ import com.example.myapplication.model.UserToken;
 import com.example.myapplication.ui.fragments.FirsrtFragment;
 import com.example.myapplication.ui.fragments.MyFragment;
 import com.example.myapplication.util.Contract;
+import com.example.myapplication.util.DeepAssetUtil;
 import com.example.myapplication.util.GlobalHandler;
 import com.example.myapplication.util.JsonUtils;
 import com.example.myapplication.util.LoadingDailogUtil;
@@ -41,6 +43,10 @@ import com.flyco.animation.SlideExit.SlideBottomExit;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.google.gson.Gson;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,16 +61,19 @@ public class UserActivity extends AppCompatActivity implements GlobalHandler.Han
 //    private Fragment upFragment;
     private Fragment firstFragment;
     private Fragment myFragment;
+    public long handle;
     private static  UserActivity userActivity;
     FragmentTransaction transaction;
     private String [] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
+            Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,
+    Manifest.permission.NFC,Manifest.permission.READ_PHONE_STATE,Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS};
     private List<String> mPermissionList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
         sp = getSharedPreferences("login", 0);
         mHandler = GlobalHandler.getInstance();
         mHandler.setHandleMsgListener(this);
@@ -269,4 +278,30 @@ public class UserActivity extends AppCompatActivity implements GlobalHandler.Han
         // 释放内存资源
         OCR.getInstance().release();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!OpenCVLoader.initDebug()) {
+            LogUtil.d( "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, getApplicationContext(), mLoaderCallback);
+        } else {
+            LogUtil.d("OpenCV library found inside package. Using it!");
+            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+    }
+
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+        @SuppressLint("StaticFieldLeak")
+        @Override
+        public void onManagerConnected(int status) {
+            super.onManagerConnected(status);
+            if (status == LoaderCallbackInterface.SUCCESS) {
+                LogUtil.d( "OpenCV 加载成功");
+                handle = DeepAssetUtil.initRecognizer(UserActivity.this);
+            } else {
+                LogUtil.d("OpenCV 加载失败");
+            }
+        }
+    };
 }

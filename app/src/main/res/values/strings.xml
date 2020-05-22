@@ -2,10 +2,13 @@
     <string name="app_name">民警端</string>
     <string name="login_title">非机动车处罚系统民警端</string>
     <string name="register">注册</string>
+    <string name="update">修改</string>
     <string name="add">提交</string>
     <string name="login">登录</string>
     <string name="user_name">用户名</string>
+    <string name="user_before_pass_word">原密码</string>
     <string name="password">密码</string>
+    <string name="new_password">新密码</string>
     <string name="password_again">再次输入</string>
     <string name="name">姓名</string>
     <string name="name1">姓名:</string>
@@ -34,7 +37,7 @@
     <string name="default_native_place">北京市</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="search_hint">输入姓名或身份证号查询</string>
+    <string name="search_hint">姓名/身份证号/车牌号</string>
     <string name="empty_h1">暂时没有数据</string>
     <string name="empty_h2">（如果是查询无数据，请尝试点击搜索图标）</string>
     <string name="empty_h3">（如果是当前无数据，请尝试下拉刷新数据）</string>
@@ -44,4 +47,5 @@
     <string name="tag_is_agree">是否通过：</string>
     <string name="tag_hini">输入您审核的意见</string>
     <string name="tag_input">审核的意见</string>
+    <string name="title_activity_illegal_case_detailectivity">违法消息详情如下</string>
 </resources>

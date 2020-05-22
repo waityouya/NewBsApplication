@@ -9,6 +9,10 @@ public class Page extends UserToken{
 
     }
 
+    public Page(String userId,String token){
+        super(userId, token);
+    }
+
     public Page(int page,String userId,String token,int auditType){
         super(userId, token);
         this.page = page;
